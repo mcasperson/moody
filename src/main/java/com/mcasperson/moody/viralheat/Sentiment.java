@@ -1,4 +1,4 @@
-package viralheat;
+package com.mcasperson.moody.viralheat;
 
 public class Sentiment {
     private String text;

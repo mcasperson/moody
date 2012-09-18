@@ -1,4 +1,4 @@
-package viralheat;
+package com.mcasperson.moody.viralheat;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;

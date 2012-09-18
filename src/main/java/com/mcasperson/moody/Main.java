@@ -1,3 +1,4 @@
+package com.mcasperson.moody;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,8 +19,9 @@ import org.jboss.resteasy.client.ProxyFactory;
 import org.jboss.resteasy.plugins.providers.RegisterBuiltin;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
 
-import viralheat.Sentiment;
-import viralheat.ViralHeatREST;
+import com.mcasperson.moody.viralheat.Sentiment;
+import com.mcasperson.moody.viralheat.ViralHeatREST;
+
 
 public class Main implements ActionListener {
 

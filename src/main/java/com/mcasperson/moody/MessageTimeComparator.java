@@ -1,3 +1,4 @@
+package com.mcasperson.moody;
 import java.util.Comparator;
 
 public class MessageTimeComparator implements Comparator<Message> {

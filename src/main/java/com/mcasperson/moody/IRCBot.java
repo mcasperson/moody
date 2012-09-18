@@ -1,3 +1,4 @@
+package com.mcasperson.moody;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;

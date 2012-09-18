@@ -1,3 +1,4 @@
+package com.mcasperson.moody;
 
 public class Constants {
     public static final String URL = "http://www.viralheat.com";

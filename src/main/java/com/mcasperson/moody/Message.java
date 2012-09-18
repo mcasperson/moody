@@ -1,3 +1,4 @@
+package com.mcasperson.moody;
 import java.util.Calendar;
 
 public class Message {
