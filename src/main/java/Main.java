@@ -88,34 +88,56 @@ public class Main implements MessageRecieved {
 
             /* to keep a track of how many messages are processed */
             int count = 0;
-            
+
             /* sort the messages by time received */
             Collections.sort(bot.getMessages(), new MessageTimeComparator());
             /* Now make the latest ones (i.e. those with the largest times) be listed first */
             Collections.reverse(bot.getMessages());
-            
+
             /* Check the sentiment of as many messages as possible */
             for (final Message messageDetails : bot.getMessages()) {
+                
+                /* only check those messages that were sent during the last frequency period */
+                final boolean messageInFrequencyWindow = Calendar.getInstance().getTimeInMillis() - messageDetails.getTime().getTimeInMillis() <= Constants.FREQUENCY;
+                
+                /* because the list is sorted, once we find out outside the frequency period, all the remaining ones will be too */
+                if (!messageInFrequencyWindow)
+                    break;
+                
                 if (messageDetails.getChannel().equals(channel)) {
-                    try {
-                        
-                        /* Use RESTEasy client to call Viral Heat */
-                        final int end = messageDetails.getMessage().length() > Constants.VIRAL_HEAT_MAX_MESSAGE_LENGTH ? Constants.VIRAL_HEAT_MAX_MESSAGE_LENGTH : messageDetails.getMessage().length();
-                        final String trimmedMessage = messageDetails.getMessage().substring(0, end);
-                        final Sentiment sentiment = client.getSentiment(trimmedMessage, apiKey);
+                    
+                    /* have we already processed this message? */
+                    final String mood = messageDetails.getMood();
+                    
+                    /* if not, call the API */
+                    if (mood == null) {
+                        try {
+                            /* keep a track of how many calls we are making */
+                            ++count;
+                            
+                            /* Make sure we abide by the message limits */
+                            final int end = messageDetails.getMessage().length() > Constants.VIRAL_HEAT_MAX_MESSAGE_LENGTH ? Constants.VIRAL_HEAT_MAX_MESSAGE_LENGTH
+                                    : messageDetails.getMessage().length();
+                            final String trimmedMessage = messageDetails.getMessage().substring(0, end);
+                            
+                            /* Use RESTEasy client to call Viral Heat */
+                            final Sentiment sentiment = client.getSentiment(trimmedMessage, apiKey);
+                            
+                            /* Save the mood */
+                            messageDetails.setMood(sentiment.getMood());
 
-                        /* Note the moos of the message */
-                        if (!sentimentCount.containsKey(sentiment.getMood())) {
-                            sentimentCount.put(sentiment.getMood(), 1);
-                        } else {
-                            sentimentCount.put(sentiment.getMood(), sentimentCount.get(sentiment.getMood() + 1));
+                        } catch (final Exception ex) {
+                            ex.printStackTrace();
                         }
-                    } catch (final Exception ex) {
-                        ex.printStackTrace();
+                    }
+
+                    /* Note the mood of the message */
+                    if (!sentimentCount.containsKey(messageDetails.getMood())) {
+                        sentimentCount.put(messageDetails.getMood(), 1);
+                    } else {
+                        sentimentCount.put(messageDetails.getMood(), sentimentCount.get(messageDetails.getMood() + 1));
                     }
                 }
-
-                ++count;
 
                 /* Don't blow the API limit */
                 if (count >= Constants.MAX_CHECKS_PER_UPDATE / bot.getChannels().length)

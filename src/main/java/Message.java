@@ -5,6 +5,7 @@ public class Message {
     private final String channel;
     private final String message;
     private final Calendar time;
+    private String mood;
     
     public Calendar getTime() {
         return time;
@@ -28,5 +29,13 @@ public class Message {
 
     public String getChannel() {
         return channel;
+    }
+
+    public String getMood() {
+        return mood;
+    }
+
+    public void setMood(String mood) {
+        this.mood = mood;
     }
 }
