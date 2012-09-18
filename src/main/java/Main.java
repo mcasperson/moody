@@ -77,7 +77,7 @@ public class Main implements ActionListener {
         // Display the window.
         frame.pack();
         frame.setVisible(true);
-        
+
         /* Setup a timer to update the UI */
         new Timer(Constants.FREQUENCY, this);
     }
@@ -87,7 +87,7 @@ public class Main implements ActionListener {
         Collections.sort(bot.getMessages(), new MessageTimeComparator());
         /* Now make the latest ones (i.e. those with the largest times) be listed first */
         Collections.reverse(bot.getMessages());
-        
+
         for (final String channel : bot.getChannels()) {
             if (channels.containsKey(channel)) {
                 /* Used to keep a track of the moods of the processed messages */
@@ -137,11 +137,13 @@ public class Main implements ActionListener {
                             }
                         }
 
-                        /* Note the mood of the message */
-                        if (!sentimentCount.containsKey(messageDetails.getMood())) {
-                            sentimentCount.put(messageDetails.getMood(), 1);
-                        } else {
-                            sentimentCount.put(messageDetails.getMood(), sentimentCount.get(messageDetails.getMood() + 1));
+                        if (messageDetails.getMood() != null) {
+                            /* Note the mood of the message */
+                            if (!sentimentCount.containsKey(messageDetails.getMood())) {
+                                sentimentCount.put(messageDetails.getMood(), 1);
+                            } else {
+                                sentimentCount.put(messageDetails.getMood(), sentimentCount.get(messageDetails.getMood() + 1));
+                            }
                         }
                     }
 
