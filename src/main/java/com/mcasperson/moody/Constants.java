@@ -1,7 +1,7 @@
 package com.mcasperson.moody;
 
 public class Constants {
-    public static final String URL = "http://www.viralheat.com";
+    public static final String URL = "https://www.viralheat.com";
     public static final String IRC_NAME = "moody";
     public static final int FREQUENCY = 1000 * 60 * 5;
     public static final int MAX_CHECKS = 5000;
