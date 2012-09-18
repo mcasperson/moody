@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.Box;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
@@ -33,11 +34,14 @@ public class Main implements ActionListener {
             return;
 
         final StringBuilder apiKey = new StringBuilder();
+        final StringBuilder server = new StringBuilder();
         final List<String> argsList = new ArrayList<String>();
 
         for (final String arg : args) {
             if (apiKey.length() == 0)
                 apiKey.append(arg);
+            else if (server.length() == 0)
+                server.append(arg);
             else
                 argsList.add(arg);
         }
@@ -46,30 +50,33 @@ public class Main implements ActionListener {
         // creating and showing this application's GUI.
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                new Main(apiKey.toString(), argsList);
+                new Main(apiKey.toString(), server.toString(), argsList);
             }
         });
     }
 
-    public Main(final String apiKey, final List<String> channels) {
+    public Main(final String apiKey, final String server, final List<String> channels) {
         RegisterBuiltin.register(ResteasyProviderFactory.getInstance());
         client = ProxyFactory.create(ViralHeatREST.class, Constants.URL);
 
-        bot = new IRCBot(Constants.IRC_SERVER, channels, null);
+        bot = new IRCBot(server, channels, null);
 
         this.apiKey = apiKey;
 
-        createAndShowGUI();
+        createAndShowGUI(channels);
     }
 
-    private void createAndShowGUI() {
+    private void createAndShowGUI(final List<String> ircChannels) {
         // Create and set up the window.
         final JFrame frame = new JFrame("Moody");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        final Box vertialPanel = Box.createVerticalBox();
+        frame.getContentPane().add(vertialPanel);
 
-        for (final String channel : bot.getChannels()) {
+        for (final String channel : ircChannels) {
             final JLabel label = new JLabel(channel);
-            frame.getContentPane().add(label);
+            vertialPanel.add(label);
 
             channels.put(channel, label);
         }
@@ -79,7 +86,7 @@ public class Main implements ActionListener {
         frame.setVisible(true);
 
         /* Setup a timer to update the UI */
-        new Timer(Constants.FREQUENCY, this);
+        new Timer(Constants.FREQUENCY, this).start();
     }
 
     public void actionPerformed(ActionEvent arg0) {

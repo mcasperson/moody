@@ -1,0 +1,3 @@
+Moody is an IRC bot that monitors traffic in a chat room and periodically calls the ViralHeat sentiment API (https://www.viralheat.com/developer/sentiment_api) to see if the mood in the room is positive or negative.
+
+The first arument is your Viral Heat API Key. The remaining argume
