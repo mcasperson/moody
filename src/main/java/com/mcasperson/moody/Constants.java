@@ -10,4 +10,5 @@ public class Constants {
     public static final int VIRAL_HEAT_MAX_MESSAGE_LENGTH = 360;
     public static final String POSITIVE_MOOD = "positive";
     public static final String NEGATIVE_MOOD = "negative";
+    public static final int JOIN_WAIT_TIME = 1000;
 }   
