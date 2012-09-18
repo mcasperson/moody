@@ -133,9 +133,9 @@ public class Main implements MessageRecieved {
             }
 
             /* Update the UI */
-            if (maxMood.equals("negative"))
+            if (maxMood.equals(Constants.NEGATIVE_MOOD))
                 channels.get(channel).getLabel().setForeground(Color.RED);
-            else if (maxMood.equals("positive"))
+            else if (maxMood.equals(Constants.POSITIVE_MOOD))
                 channels.get(channel).getLabel().setForeground(Color.GREEN);
             else
                 channels.get(channel).getLabel().setForeground(Color.YELLOW);
