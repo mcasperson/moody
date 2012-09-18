@@ -170,7 +170,9 @@ public class Main implements ActionListener {
                 }
 
                 /* Update the UI */
-                if (maxMood.equals(Constants.NEGATIVE_MOOD))
+                if (maxMood == null)
+                    channels.get(channel).setForeground(Color.BLACK);
+                else if (maxMood.equals(Constants.NEGATIVE_MOOD))
                     channels.get(channel).setForeground(Color.RED);
                 else if (maxMood.equals(Constants.POSITIVE_MOOD))
                     channels.get(channel).setForeground(Color.GREEN);
