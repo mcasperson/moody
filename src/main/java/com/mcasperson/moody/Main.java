@@ -32,7 +32,7 @@ public class Main implements ActionListener {
 
     public static void main(final String[] args) {
 
-        if (args.length < 2)
+        if (args.length < 3)
             return;
 
         final StringBuilder apiKey = new StringBuilder();
