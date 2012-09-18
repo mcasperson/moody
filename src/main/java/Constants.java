@@ -7,4 +7,5 @@ public class Constants {
     public static final int MAX_CHECKS = 5000;
     public static final int WORKING_HOURS_PER_DAY = 8;
     public static final int MAX_CHECKS_PER_UPDATE = FREQUENCY / MAX_CHECKS / WORKING_HOURS_PER_DAY / 60 / 60 / 1000;  
+    public static final int VIRAL_HEAT_MAX_MESSAGE_LENGTH = 360;
 }   
